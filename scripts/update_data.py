@@ -5,9 +5,9 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, monotonically_increasing_id, row_number
 from pyspark.sql.window import Window
 
-DB_URL = "jdbc:postgresql://postgres:5432/bigdata_lab2"
-POSTGRES_USER = "postgres"
-POSTGRES_PASSWORD = "postgres"
+DB_URL = "jdbc:postgresql://postgres:5432/spark_db"
+POSTGRES_USER = "spark_user"
+POSTGRES_PASSWORD = "spark_password"
 
 
 def create_spark_session():
