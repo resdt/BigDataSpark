@@ -1,16 +1,16 @@
 services:
   # Jupyter Notebook with PySpark
   jupyter-notebook:
-    image: jupyter/pyspark-notebook:spark-3.3.0
+    build: ./spark
     container_name: jupyter-notebook
     environment:
       - SPARK_MASTER=spark://spark-master:7077
       - JUPYTER_ENABLE_LAB=yes
     ports:
-      - "8888:8888" # Jupyter Notebook/Lab interface
+      - "8888:8888"
     volumes:
-      - .:/home/jovyan/work # Монтируем папку notebooks
-    working_dir: /home/jovyan/work
+      - ./spark:/home/jovyan/work/spark
+    working_dir: /home/jovyan/work/spark
     depends_on:
       - spark-master
       - postgres
@@ -30,7 +30,6 @@ services:
     volumes:
       - ./исходные данные:/data
       - ./init:/docker-entrypoint-initdb.d
-      - postgres_data:/var/lib/postgresql/data
     networks:
       - spark-network
 
@@ -44,7 +43,6 @@ services:
       - "9009:9009" # For replication (optional)
     volumes:
       - ./config/clickhouse/users.xml:/etc/clickhouse-server/users.xml
-      - clickhouse_data:/var/lib/clickhouse
     networks:
       - spark-network
 
@@ -81,11 +79,6 @@ services:
       - spark-master
     networks:
       - spark-network
-
-volumes:
-  postgres_data:
-  clickhouse_data:
-
 
 networks:
   spark-network:
